@@ -1,5 +1,10 @@
+import 'package:ev_ui/auth_wrapper.dart';
+import 'package:ev_ui/constants/color.dart';
 import 'package:ev_ui/dao/userDAO.dart';
 import 'package:ev_ui/screens/homepage.dart';
+import 'package:ev_ui/screens/navigation.dart';
+import 'package:ev_ui/screens/registration/pending.dart';
+import 'package:ev_ui/screens/registration/sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -191,18 +196,20 @@ class SignUp extends StatelessWidget {
                                 Container(
                                   height: 35,
                                   decoration: BoxDecoration(
-                                      color: Color(0xff103A4FF),
+                                      color: primaryColor,
                                       borderRadius: BorderRadius.circular(10)),
-                                  // child: TextButton(
-                                  //   onPressed: () {
-                                  //     Navigator.pushReplacementNamed(
-                                  //         context, 'signin');
-                                  //   },
-                                  //   child: Text(
-                                  //     'Back to Login',
-                                  //     style: TextStyle(color: Colors.white),
-                                  //   ),
-                                  // ),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => SignIn()));
+                                    },
+                                    child: Text(
+                                      'Back to Login',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
                                 ),
                                 Expanded(child: SizedBox.shrink()),
                               ],
@@ -223,11 +230,6 @@ class SignUp extends StatelessWidget {
                                             name: usernameController.text,
                                             email: emailController.text,
                                             password: passwordController.text);
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    HomePage()));
                                       } else {
                                         print('error credentials');
                                       }

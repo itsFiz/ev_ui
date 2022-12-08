@@ -1,8 +1,13 @@
+import 'dart:developer';
+
 import 'package:ev_ui/dao/userDAO.dart';
 import 'package:ev_ui/models/user.dart';
 import 'package:ev_ui/screens/home.dart';
-import 'package:ev_ui/screens/sign_in.dart';
-import 'package:ev_ui/screens/sign_up.dart';
+import 'package:ev_ui/screens/homepage.dart';
+import 'package:ev_ui/screens/navigation.dart';
+import 'package:ev_ui/screens/registration/pending.dart';
+import 'package:ev_ui/screens/registration/sign_in.dart';
+import 'package:ev_ui/screens/registration/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,9 +25,11 @@ class _AuthWrapperState extends State<AuthWrapper> {
       builder: (context, userDAO, child) {
         if (userDAO.user == null) {
           return SignUp();
-        } else {
-          return home();
+        } else if (userDAO.user!.verified == false) {
+          log('pending');
+          return Pending();
         }
+        return Nav();
       },
     );
   }

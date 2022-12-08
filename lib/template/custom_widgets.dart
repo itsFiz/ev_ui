@@ -9,26 +9,37 @@ Widget facilityButton(
     required Function()? onTap}) {
   return GestureDetector(
     onTap: onTap,
-    child: Container(
-      width: 30.w,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5.sp),
-        color: primaryColor,
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Icon(
-            iconData,
-            color: Colors.white,
-            size: 30.sp,
-          ),
-          Text(
-            label,
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ],
+    child: Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.sp)),
+      child: Container(
+        height: 20.h,
+        width: 23.w,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5.sp),
+          color: primaryColor,
+          // boxShadow: [
+          //   BoxShadow(blurRadius: 6.sp, offset: Offset(0, 2)),
+          // ],
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Icon(
+              iconData,
+              color: Colors.white,
+              size: 30.sp,
+            ),
+            Text(
+              label,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12.sp),
+            ),
+          ],
+        ),
       ),
     ),
   );

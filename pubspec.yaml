@@ -38,6 +38,9 @@ dependencies:
   provider: ^6.0.3
   ionicons: ^0.1.2
   sizer: ^2.0.15
+  lottie: 1.1.0
+
+
 
 dev_dependencies:
   flutter_test:
@@ -61,6 +64,15 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  assets:
+    - assets/images/badminton.jpg
+    - assets/images/basketball.jpg
+    - assets/images/soccertable.jpg
+    - assets/images/pooltable.jpg
+    - assets/images/loki.jpg
+    
+
+          
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

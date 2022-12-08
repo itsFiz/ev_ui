@@ -1,19 +1,28 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:ev_ui/constants/color.dart';
-import 'package:ev_ui/screens/facilities/bbq.dart';
-import 'package:ev_ui/screens/facilities/courts.dart';
-import 'package:ev_ui/screens/facilities/games.dart';
-import 'package:ev_ui/screens/facilities/spaces.dart';
+import 'package:ev_ui/dao/userDAO.dart';
+import 'package:ev_ui/models/user.dart';
+import 'package:ev_ui/screens/facilities/bbq/bbq.dart';
+import 'package:ev_ui/screens/facilities/courts/courts.dart';
+import 'package:ev_ui/screens/facilities/games_area/games.dart';
+import 'package:ev_ui/screens/facilities/spaces/spaces.dart';
 import 'package:ev_ui/screens/home.dart';
 import 'package:ev_ui/screens/notif.dart';
 import 'package:ev_ui/screens/profile.dart';
 import 'package:ev_ui/template/custom_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final void Function() openDrawer;
+
+  const HomePage({
+    Key? key,
+    required this.openDrawer,
+  }) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -24,45 +33,29 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    UserDAO? userDao = Provider.of<UserDAO>(context);
+
     return Scaffold(
       key: _key,
       backgroundColor: secondaryColor,
       appBar: appBar(),
-      body: body(),
-      drawer: Drawer(
-        backgroundColor: Color(0xff041C29),
-        child: Column(
-          children: [
-            SizedBox(height: 70.h),
-            Container(
-              width: 200,
-              height: 40,
-              decoration: BoxDecoration(
-                color: Color(0xff00314D),
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Color(0xffC51A1A), width: 1.2),
-              ),
-              child: TextButton(
-                onPressed: () {
-                  exit(0);
-                },
-                child: Text('EXIT'),
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: body(user: userDao.user),
     );
   }
 
   AppBar appBar() => AppBar(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(15.sp),
+                bottomRight: Radius.circular(15.sp))),
         backgroundColor: secondaryColor,
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Ionicons.menu_outline),
           onPressed: () {
-            _key.currentState!.openDrawer();
+            widget.openDrawer();
+            log('open');
           },
         ),
         title: Text('EV'),
@@ -74,7 +67,17 @@ class _HomePageState extends State<HomePage> {
               },
               icon: Icon(Ionicons.notifications_outline)),
           GestureDetector(
-            child: CircleAvatar(),
+            child: Container(
+              padding: EdgeInsets.all(1.sp),
+              decoration:
+                  BoxDecoration(shape: BoxShape.circle, color: primaryColor),
+              child: CircleAvatar(
+                  backgroundColor: primaryColor,
+                  radius: 12.sp,
+                  backgroundImage: AssetImage(
+                    'assets/images/loki.jpg',
+                  )),
+            ),
             onTap: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Profile()));
@@ -85,16 +88,23 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       );
-  Container body() => Container(
+  Container body({User? user}) => Container(
         padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
-        height: 100.h,
         width: 100.w,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Hi',
-              style: TextStyle(fontSize: 17.sp),
+            Row(
+              children: [
+                Text(
+                  'Hi, ',
+                  style: TextStyle(fontSize: 17.sp),
+                ),
+                Text(
+                  user!.name.toString(),
+                  style: TextStyle(fontSize: 17.sp),
+                ),
+              ],
             ),
             SizedBox(height: 1.h),
             Text(
@@ -144,15 +154,18 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             SizedBox(
-              height: 3.h,
+              height: 2.h,
             ),
             SizedBox(
-              height: 16.h,
+              height: 20.h,
               child: ListView(
                 physics: BouncingScrollPhysics(),
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 children: [
+                  SizedBox(
+                    width: 2.w,
+                  ),
                   facilityButton(
                     iconData: Ionicons.basketball_outline,
                     label: 'Courts',
@@ -162,7 +175,7 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                   SizedBox(
-                    width: 4.w,
+                    width: 2.w,
                   ),
                   facilityButton(
                     iconData: Ionicons.school_outline,
@@ -173,7 +186,7 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                   SizedBox(
-                    width: 4.w,
+                    width: 2.w,
                   ),
                   facilityButton(
                     iconData: Ionicons.game_controller_outline,
@@ -184,7 +197,7 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                   SizedBox(
-                    width: 4.w,
+                    width: 2.w,
                   ),
                   facilityButton(
                     iconData: Ionicons.restaurant_outline,
@@ -219,9 +232,30 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             SizedBox(height: 2.h),
-            SizedBox(
-              height: 10,
-              child: ListView(),
+            Expanded(
+              child: ListView(
+                physics: BouncingScrollPhysics(),
+                children: [
+                  quickBook(
+                      facilityPic: 'soccertable.jpg',
+                      facilitiesName: 'Soccer Table',
+                      facilitiesType: 'Indoor Games Area',
+                      id: ''),
+                  SizedBox(
+                    height: 1.h,
+                  ),
+                  quickBook(
+                      facilityPic: 'badminton.jpg',
+                      facilitiesName: 'Badminton',
+                      facilitiesType: 'Sport Court',
+                      id: ''),
+                  quickBook(
+                      facilityPic: 'soccertable.jpg',
+                      facilitiesName: 'Soccer Table',
+                      facilitiesType: 'Indoor Games Area',
+                      id: ''),
+                ],
+              ),
             ),
           ],
         ),
@@ -231,4 +265,79 @@ class _HomePageState extends State<HomePage> {
                 topLeft: Radius.circular(20.sp),
                 topRight: Radius.circular(20.sp))),
       );
+}
+
+Widget quickBook({
+  required String facilityPic,
+  required String facilitiesName,
+  required String facilitiesType,
+  required String id,
+}) {
+  return Card(
+    shadowColor: Colors.black45,
+    shape: RoundedRectangleBorder(
+        borderRadius: BorderRadiusDirectional.circular(5.sp)),
+    elevation: 3,
+    child: Container(
+      padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(5.sp),
+            child: Image.asset(
+              'assets/images/$facilityPic',
+              height: 6.h,
+            ),
+          ),
+          SizedBox(
+            width: 2.w,
+          ),
+          Expanded(
+            child: SizedBox(
+              height: 6.h,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    facilitiesName,
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
+                    style:
+                        TextStyle(fontWeight: FontWeight.w800, fontSize: 12.sp),
+                  ),
+                  Text(
+                    facilitiesType,
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Colors.black45,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 10.sp),
+                  )
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 2.w,
+          ),
+          TextButton(
+            style: TextButton.styleFrom(
+              backgroundColor: primaryColor,
+              padding: EdgeInsets.all(7.sp),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.sp)),
+            ),
+            child: Text(
+              'Book Now',
+              style: TextStyle(color: tertiaryColor),
+            ),
+            onPressed: () {},
+          ),
+        ],
+      ),
+    ),
+  );
 }

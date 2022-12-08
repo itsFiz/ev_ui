@@ -30,4 +30,29 @@ class UserController {
 
     return null;
   }
+
+  static Future<Map<String, dynamic>?> login({
+    required String email,
+    required String password,
+  }) async {
+    String url = baseURL + 'auth/login';
+    var response = await post(
+      Uri.parse(url),
+      body: jsonEncode(
+        {
+          'email': email,
+          'password': password,
+        },
+      ),
+      headers: headersWithoutToken,
+    );
+    log(response.body);
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = jsonDecode(response.body);
+      return data;
+    }
+
+    return null;
+  }
 }
