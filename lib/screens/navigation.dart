@@ -129,10 +129,7 @@ class _NavState extends State<Nav> {
                             int index = item['index'];
 
                             if (index == 3) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SignUp()));
+                              userDao.logout();
 
                               // TODO
                               // logout logic

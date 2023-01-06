@@ -1,6 +1,7 @@
 import 'package:ev_ui/constants/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:sizer/sizer.dart';
 
 AppBar templateAppBar({

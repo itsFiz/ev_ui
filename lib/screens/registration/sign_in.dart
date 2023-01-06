@@ -14,7 +14,8 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  String loginerror = 'Invalid email or password';
+  String? error;
+
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -61,23 +62,31 @@ class _SignInState extends State<SignIn> {
                             EdgeInsets.symmetric(horizontal: 60, vertical: 80),
                         child: Column(
                           children: [
-                            Text(
-                              loginerror,
-                              style: TextStyle(color: Colors.red),
+                            //
+                            SizedBox(
+                              height: 20,
                             ),
+                            error == null
+                                ? SizedBox.shrink()
+                                : Text(
+                                    error
+                                        .toString(), //if error null dont show null
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                    )),
                             SizedBox(
                               height: 20,
                             ),
                             TextFormField(
                               controller: usernameController,
                               validator: (val) => val!.isEmpty
-                                  ? 'Username can\'t be empty'
+                                  ? 'Identity No. can\'t be empty'
                                   : null,
                               style: TextStyle(
                                 color: Color(0xff107163),
                               ),
                               decoration: InputDecoration(
-                                hintText: 'Email',
+                                hintText: 'Identity No.',
                                 hintStyle: TextStyle(color: Color(0xffA5A3A3)),
                                 errorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -196,20 +205,19 @@ class _SignInState extends State<SignIn> {
                                   child: TextButton(
                                     onPressed: () async {
                                       if (_formKey.currentState!.validate()) {
-                                        dynamic res = await userDAO.login(
-                                          email: usernameController.text,
+                                        bool res = await userDAO.login(
+                                          identityNo: usernameController.text,
                                           password: passwordController.text,
                                         );
-                                        if (res == true) {
-                                          Navigator.pop(context);
+                                        if (res == false) {
+                                          setState(() {
+                                            error = 'User not found';
+                                          });
                                         }
-
-                                        setState(() {
-                                          loginerror =
-                                              'Invalid username/password';
-                                        });
                                       } else {
-                                        print('error credentials');
+                                        setState(() {
+                                          error = 'Error credentials';
+                                        });
                                       }
                                     },
                                     child: Text(

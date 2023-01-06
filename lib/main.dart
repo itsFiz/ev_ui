@@ -1,5 +1,6 @@
 import 'package:ev_ui/auth_wrapper.dart';
 import 'package:ev_ui/dao/userDAO.dart';
+import 'package:ev_ui/screens/facilities/games_area/games.dart';
 import 'package:ev_ui/screens/history.dart';
 import 'package:ev_ui/screens/homepage.dart';
 import 'package:ev_ui/screens/navigation.dart';

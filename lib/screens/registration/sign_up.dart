@@ -7,6 +7,7 @@ import 'package:ev_ui/screens/registration/pending.dart';
 import 'package:ev_ui/screens/registration/sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 class SignUp extends StatelessWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserDAO userDAO = Provider.of<UserDAO>(context);
+    TextEditingController idnoController = TextEditingController();
     TextEditingController usernameController = TextEditingController();
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
@@ -57,6 +59,47 @@ class SignUp extends StatelessWidget {
                             EdgeInsets.symmetric(horizontal: 60, vertical: 80),
                         child: Column(
                           children: [
+                            TextFormField(
+                              controller: idnoController,
+                              validator: (val) =>
+                                  val!.isEmpty ? 'Id No can\'t be empty' : null,
+                              style: TextStyle(
+                                color: Color(0xff107163),
+                              ),
+                              decoration: InputDecoration(
+                                hintText: 'Id No',
+                                hintStyle: TextStyle(color: Color(0xffA5A3A3)),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    width: 2,
+                                    style: BorderStyle.solid,
+                                    color: Color(0xff107163),
+                                  ),
+                                ),
+                                disabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      width: 2,
+                                      style: BorderStyle.solid,
+                                      color: Color(0xff107163),
+                                    )),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      width: 2,
+                                      style: BorderStyle.solid,
+                                      color: Color(0xff107163),
+                                    )),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      width: 2,
+                                      color: Color(0xff107163),
+                                    )),
+                              ),
+                            ),
+                            SizedBox(height: 2.h),
                             TextFormField(
                               controller: usernameController,
                               validator: (val) =>
@@ -200,10 +243,7 @@ class SignUp extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(10)),
                                   child: TextButton(
                                     onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => SignIn()));
+                                      Navigator.pop(context);
                                     },
                                     child: Text(
                                       'Back to Login',
@@ -227,9 +267,14 @@ class SignUp extends StatelessWidget {
                                     onPressed: () async {
                                       if (_formKey.currentState!.validate()) {
                                         bool res = await userDAO.register(
+                                            idno: idnoController.text,
                                             name: usernameController.text,
                                             email: emailController.text,
                                             password: passwordController.text);
+
+                                        if (res) {
+                                          Navigator.pop(context);
+                                        }
                                       } else {
                                         print('error credentials');
                                       }

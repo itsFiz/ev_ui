@@ -65,14 +65,14 @@ class home extends StatelessWidget {
                 border: Border.all(color: Color(0xff05B1A1), width: 1.2),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Container(
               width: 200,
               height: 40,
               decoration: BoxDecoration(
-                color: Color(0xff00314D),
+                color: const Color(0xff00314D),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: Color(0xffC51A1A), width: 1.2),
               ),

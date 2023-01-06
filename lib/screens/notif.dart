@@ -15,8 +15,18 @@ class _NotifState extends State<Notif> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: templateAppBar(barName: 'Notifications'),
+      backgroundColor: Color(0xff0D1724),
+      appBar: AppBar(
+          backgroundColor: secondaryColor,
+          elevation: 0,
+          centerTitle: true,
+          title: Text('Notifications'),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(15.sp),
+                  bottomRight: Radius.circular(15.sp)))),
       body: Container(
+        color: Color(0xff0D1724),
         padding: EdgeInsets.symmetric(vertical: 5.w, horizontal: 3.h),
         width: 100.w,
         child: Column(

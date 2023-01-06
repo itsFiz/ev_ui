@@ -1,11 +1,12 @@
 import 'package:ev_ui/constants/color.dart';
+import 'package:ev_ui/dao/userDAO.dart';
 import 'package:ev_ui/screens/navigation.dart';
 import 'package:ev_ui/screens/registration/sign_in.dart';
 import 'package:flutter/material.dart';
 
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import '';
 
 class Pending extends StatefulWidget {
   const Pending({Key? key}) : super(key: key);
@@ -69,8 +70,9 @@ class _PendingState extends State<Pending> {
               padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 2.w),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignIn()));
+                  UserDAO userDAO =
+                      Provider.of<UserDAO>(context, listen: false);
+                  userDAO.logout();
                 },
                 child: Text(
                   'Back to Login',

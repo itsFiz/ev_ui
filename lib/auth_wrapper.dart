@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:ev_ui/dao/userDAO.dart';
 import 'package:ev_ui/models/user.dart';
 import 'package:ev_ui/screens/home.dart';
@@ -24,9 +23,8 @@ class _AuthWrapperState extends State<AuthWrapper> {
     return Consumer<UserDAO>(
       builder: (context, userDAO, child) {
         if (userDAO.user == null) {
-          return SignUp();
+          return SignIn();
         } else if (userDAO.user!.verified == false) {
-          log('pending');
           return Pending();
         }
         return Nav();

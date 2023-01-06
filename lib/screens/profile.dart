@@ -20,15 +20,7 @@ class _ProfileState extends State<Profile> {
     UserDAO? userDao = Provider.of<UserDAO>(context);
     return Scaffold(
       backgroundColor: Color(0xff0D1724),
-      appBar: AppBar(
-          backgroundColor: Color(0xff0D1724),
-          elevation: 0,
-          centerTitle: true,
-          title: Text('Profile'),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(15.sp),
-                  bottomRight: Radius.circular(15.sp)))),
+      appBar: templateAppBar(barName: 'Profile'),
       body: Container(
         color: Color(0xff0D1724),
         height: 100.h,

@@ -39,6 +39,7 @@ dependencies:
   ionicons: ^0.1.2
   sizer: ^2.0.15
   lottie: 1.1.0
+  flutter_secure_storage: ^7.0.1
 
 
 
